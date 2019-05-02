@@ -1,5 +1,0 @@
-profile: service
-defaultPackage: micronaut.poc
----
-testFramework: spek
-sourceLanguage: kotlin

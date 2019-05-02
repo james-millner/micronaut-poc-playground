@@ -1,4 +1,4 @@
-package micronaut.poc
+package micronaut.receiver
 
 import io.micronaut.context.ApplicationContext.run
 import io.micronaut.http.client.HttpClient

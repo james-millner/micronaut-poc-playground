@@ -1,4 +1,4 @@
-package micronaut.poc.metrics
+package micronaut.receiver.metrics
 
 import io.micrometer.prometheus.PrometheusMeterRegistry
 import io.micronaut.http.MediaType
