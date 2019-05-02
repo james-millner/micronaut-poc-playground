@@ -1,9 +1,8 @@
 Thumbs.db
 .DS_Store
 .gradle
-build/
-target/
-out/
+micronaut-publisher/build/
+micronaut-receiver/build/
 .idea
 *.iml
 *.ipr
