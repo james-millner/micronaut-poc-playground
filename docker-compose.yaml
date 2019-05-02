@@ -15,18 +15,19 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: "localhost"
       KAFKA_AUTO_CREATE_TOPICS: "false"
+      KAFKA_CREATE_TOPICS: "my-greetings:100:1"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
-  micronaut-publisher:
-    image: micronaut-publisher:latest
-    restart: always
-    ports:
-      - "8080:8080"
-
-  micronaut-receiver:
-    image: micronaut-receiver:latest
-    restart: always
-    ports:
-      - "8082:8082"
+#
+#  micronaut-publisher:
+#    image: micronaut-publisher:latest
+#    restart: always
+#    ports:
+#      - "8080:8080"
+#
+#  micronaut-receiver:
+#    image: micronaut-receiver:latest
+#    restart: always
+#    ports:
+#      - "8082:8082"

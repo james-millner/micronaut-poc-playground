@@ -29,6 +29,9 @@ configurations {
 }
 
 dependencies {
+    compile 'io.micronaut.configuration:micronaut-kafka'
+    compile 'io.github.microutils:kotlin-logging:1.6.24'
+    
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
     compile "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
     compile "javax.annotation:javax.annotation-api"

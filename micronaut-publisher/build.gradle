@@ -29,6 +29,9 @@ configurations {
 }
 
 dependencies {
+    compile 'io.micronaut.configuration:micronaut-kafka'
+    compile 'io.github.microutils:kotlin-logging:1.6.24'
+    
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
     compile "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
     compile "javax.annotation:javax.annotation-api"
@@ -37,8 +40,12 @@ dependencies {
     compile "io.micronaut:micronaut-http-server-netty"
     compile 'io.micronaut:micronaut-management:1.1.0'
     compile 'io.micronaut:micronaut-http-client:1.1.0'
-    compile 'io.micronaut.configuration:micronaut-micrometer-core:1.1.0'
-    compile 'io.micronaut.configuration:micronaut-micrometer-registry-prometheus:1.1.0'
+
+    // micrometer-registry-statsd also pulls in micrometer-core so included above to verbose example
+    compile "io.micronaut.configuration:micronaut-micrometer-registry-statsd"
+    // Also required to enable endpoint
+    compile "io.micronaut:micronaut-management"
+    compile 'io.micronaut.configuration:micronaut-micrometer-registry-prometheus'
     
     kapt "io.micronaut:micronaut-inject-java"
     kapt "io.micronaut:micronaut-validation"

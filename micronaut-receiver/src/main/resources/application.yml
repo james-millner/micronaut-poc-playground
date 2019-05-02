@@ -5,3 +5,8 @@ micronaut:
     name: micronaut-poc
   metrics:
     enabled: true
+  kafka:
+    bootstrap:
+      servers: localhost:9092
+    security:
+      protocol: PLAINTEXT

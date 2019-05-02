@@ -3,3 +3,10 @@ micronaut:
     name: micronaut-publisher
   metrics:
     enabled: true
+    kafka:
+      enabled: false
+  kafka:
+    bootstrap:
+      servers: localhost:9092
+    security:
+      protocol: PLAINTEXT
