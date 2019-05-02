@@ -8,7 +8,6 @@ plugins {
 }
 
 
-
 version "0.1"
 group "micronaut.publisher"
 
@@ -25,13 +24,13 @@ dependencyManagement {
 
 configurations {
     // for dependencies that are needed for development only
-    developmentOnly 
+    developmentOnly
 }
 
 dependencies {
     compile 'io.micronaut.configuration:micronaut-kafka'
     compile 'io.github.microutils:kotlin-logging:1.6.24'
-    
+
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
     compile "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
     compile "javax.annotation:javax.annotation-api"
@@ -46,17 +45,17 @@ dependencies {
     // Also required to enable endpoint
     compile "io.micronaut:micronaut-management"
     compile 'io.micronaut.configuration:micronaut-micrometer-registry-prometheus'
-    
+
     kapt "io.micronaut:micronaut-inject-java"
     kapt "io.micronaut:micronaut-validation"
-    
+
     kaptTest "io.micronaut:micronaut-inject-java"
 
     runtime "ch.qos.logback:logback-classic:1.2.3"
     runtime "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8"
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
-    
+
     testCompile "io.micronaut.test:micronaut-test-junit5"
     testCompile('org.junit.jupiter:junit-jupiter-api:5.4.2')
     testImplementation('org.junit.jupiter:junit-jupiter-engine:5.4.2')
@@ -81,20 +80,20 @@ test {
 }
 
 allOpen {
-	annotation("io.micronaut.aop.Around")
+    annotation("io.micronaut.aop.Around")
 }
 
 compileKotlin {
-	kotlinOptions {
-	    jvmTarget = '1.8' 
-	    //Will retain parameter names for Java reflection
-	    javaParameters = true 
-	}
+    kotlinOptions {
+        jvmTarget = '1.8'
+        //Will retain parameter names for Java reflection
+        javaParameters = true
+    }
 }
 
 compileTestKotlin {
-	kotlinOptions {
-	    jvmTarget = '1.8' 
-	    javaParameters = true 
-	}
+    kotlinOptions {
+        jvmTarget = '1.8'
+        javaParameters = true
+    }
 }

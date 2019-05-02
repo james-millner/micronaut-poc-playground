@@ -2,12 +2,10 @@ package micronaut.publisher
 
 import io.micronaut.context.ApplicationContext.run
 import io.micronaut.http.client.HttpClient
-import io.micronaut.http.client.exceptions.HttpClientException
 import io.micronaut.runtime.server.EmbeddedServer
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 
 class EndpointsTest {
 
