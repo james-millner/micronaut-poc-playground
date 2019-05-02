@@ -1,0 +1,5 @@
+micronaut:
+  application:
+    name: micronaut-publisher
+  metrics:
+    enabled: true
