@@ -1,7 +1,18 @@
 package = 'micronaut-poc'
 
-default: build
+PUBLISHER := micronaut-publisher
+RECEIVER := micronaut-receiver
+
+default: test
+
+clean:
+	cd ${PUBLISHER} && gradle clean
+	cd ${RECEIVER} && gradle clean
+
+test:
+	cd ${PUBLISHER} && gradle test
+	cd ${RECEIVER} && gradle test
 
 build:
-	cd micronaut-publisher && gradle clean test build
-	cd micronaut-receiver && gradle clean test build
+	cd ${PUBLISHER} && gradle build
+	cd ${RECEIVER} && gradle build
