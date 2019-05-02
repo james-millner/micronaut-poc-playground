@@ -1,0 +1,14 @@
+version: '3'
+services:
+
+  micronaut-publisher:
+    image: micronaut-publisher:latest
+    restart: always
+    ports:
+      - "8080:8080"
+
+  micronaut-receiver:
+    image: micronaut-receiver:latest
+    restart: always
+    ports:
+      - "8082:8082"

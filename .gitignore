@@ -10,5 +10,3 @@ micronaut-receiver/build/
 .project
 .settings
 .classpath
-
-docker-compose.yaml

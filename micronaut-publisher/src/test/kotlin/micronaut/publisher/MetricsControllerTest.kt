@@ -22,14 +22,5 @@ class EndpointsTest {
             val response = client.toBlocking().retrieve("/health")
             assertTrue { response.contains("UP") }
         }
-
-        @Test
-        fun `and the app isn't healthy`() {
-            embeddedServer.stop()
-
-            assertThrows<HttpClientException> { client.toBlocking().retrieve("/health") }
-        }
-
     }
-
 }
