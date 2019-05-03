@@ -1,5 +1,6 @@
 package micronaut.receiver
 
+import io.micronaut.context.ApplicationContext
 import io.micronaut.runtime.Micronaut
 
 object Application {

@@ -1,5 +1,7 @@
 package micronaut.publisher
 
+import io.micronaut.configuration.kafka.config.AbstractKafkaConfiguration
+import io.micronaut.context.ApplicationContext
 import io.micronaut.context.ApplicationContext.run
 import io.micronaut.http.client.HttpClient
 import io.micronaut.runtime.server.EmbeddedServer
@@ -12,7 +14,11 @@ class EndpointsTest {
     @Nested
     inner class `When hitting the health endpoint`() {
 
-        private val embeddedServer = run(EmbeddedServer::class.java)
+        var config = mapOf(
+            Pair(AbstractKafkaConfiguration.EMBEDDED, true)
+        )
+
+        private val embeddedServer = ApplicationContext.run(EmbeddedServer::class.java, config)
         private val client = embeddedServer.applicationContext.createBean(HttpClient::class.java, embeddedServer.url)
 
         @Test
