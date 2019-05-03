@@ -1,18 +1,12 @@
 package micronaut.receiver
 
-import io.micronaut.context.ApplicationContext.run
+import io.micronaut.configuration.kafka.config.AbstractKafkaConfiguration
+import io.micronaut.context.ApplicationContext
 import io.micronaut.http.client.HttpClient
 import io.micronaut.runtime.server.EmbeddedServer
-import io.micronaut.test.annotation.MicronautTest
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import io.micronaut.configuration.kafka.config.AbstractKafkaConfiguration
-import io.micronaut.context.ApplicationContext
-import io.micronaut.runtime.ApplicationConfiguration
-import java.util.Collections
-import java.util.Collections.singletonMap
-
 
 
 class EndpointsTest {
