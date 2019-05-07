@@ -12,7 +12,6 @@ import javax.inject.Inject
 @KafkaListener(offsetReset = OffsetReset.EARLIEST)
 class ProductListener(private val messagedb: MessageRepository) {
 
-
     companion object : KLogging()
 
     @Topic("my-greetings")
