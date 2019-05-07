@@ -41,6 +41,9 @@ dependencies {
     compile 'io.micronaut:micronaut-http-client:1.1.0'
     compile 'io.micronaut.configuration:micronaut-micrometer-core:1.1.0'
     compile 'io.micronaut.configuration:micronaut-micrometer-registry-prometheus:1.1.0'
+    compile "io.micronaut.configuration:micronaut-hibernate-jpa"
+    compile "io.micronaut.configuration:micronaut-hibernate-validator"
+    compile "io.micronaut.configuration:micronaut-jdbc-hikari"
 
     kapt "io.micronaut:micronaut-inject-java"
     kapt "io.micronaut:micronaut-validation"
@@ -49,6 +52,7 @@ dependencies {
 
     runtime "ch.qos.logback:logback-classic:1.2.3"
     runtime "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8"
+    runtime "com.h2database:h2"
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 
