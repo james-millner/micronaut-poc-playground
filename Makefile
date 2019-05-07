@@ -5,6 +5,8 @@ RECEIVER := micronaut-receiver
 
 default: test
 
+all: test clean build docker-build
+
 clean:
 	cd ${PUBLISHER} && gradle clean
 	cd ${RECEIVER} && gradle clean

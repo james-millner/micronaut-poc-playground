@@ -5,7 +5,11 @@ micronaut:
     name: micronaut-poc
   metrics:
     enabled: true
+    kafka:
+      enabled: false
   kafka:
+    embedded:
+      enabled: true
     bootstrap:
       servers: localhost:9092
     security:
