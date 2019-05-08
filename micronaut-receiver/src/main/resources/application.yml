@@ -1,3 +1,4 @@
+---
 micronaut:
   server:
     port: 8082
@@ -15,6 +16,8 @@ micronaut:
     security:
       protocol: PLAINTEXT
 
+
+---
 datasources:
   default:
     url: ${JDBC_URL:`jdbc:h2:mem:default;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE`}

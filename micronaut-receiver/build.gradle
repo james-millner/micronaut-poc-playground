@@ -14,6 +14,9 @@ group "micronaut.receiver"
 repositories {
     mavenCentral()
     maven { url "https://jcenter.bintray.com" }
+    maven {
+        url  "https://dl.bintray.com/micronaut/core-releases-local"
+    }
 }
 
 dependencyManagement {
@@ -28,7 +31,9 @@ configurations {
 }
 
 dependencies {
-    compile 'io.micronaut.configuration:micronaut-kafka'
+    annotationProcessor "io.micronaut:micronaut-inject-java"
+    annotationProcessor "io.micronaut:micronaut-validation"
+    
     compile 'io.github.microutils:kotlin-logging:1.6.24'
 
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
@@ -37,13 +42,16 @@ dependencies {
 
     compile "io.micronaut:micronaut-runtime"
     compile "io.micronaut:micronaut-http-server-netty"
+    compile 'io.micronaut.configuration:micronaut-kafka'
     compile 'io.micronaut:micronaut-management:1.1.0'
     compile 'io.micronaut:micronaut-http-client:1.1.0'
     compile 'io.micronaut.configuration:micronaut-micrometer-core:1.1.0'
     compile 'io.micronaut.configuration:micronaut-micrometer-registry-prometheus:1.1.0'
+    compile "javax.annotation:javax.annotation-api"
     compile "io.micronaut.configuration:micronaut-hibernate-jpa"
-    compile "io.micronaut.configuration:micronaut-hibernate-validator"
-    compile "io.micronaut.configuration:micronaut-jdbc-hikari"
+
+    compile 'io.micronaut:micronaut-spring'
+    runtime 'org.springframework:spring-jdbc'
 
     kapt "io.micronaut:micronaut-inject-java"
     kapt "io.micronaut:micronaut-validation"
@@ -63,9 +71,9 @@ dependencies {
     testCompile 'org.apache.kafka:kafka_2.12:2.1.1'
     testCompile 'org.apache.kafka:kafka_2.12:2.1.1:test'
     
-    
     testImplementation('org.junit.jupiter:junit-jupiter-engine:5.4.2')
 }
+
 test.classpath += configurations.developmentOnly
 
 mainClassName = "micronaut.receiver.Application"
