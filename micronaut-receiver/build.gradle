@@ -1,22 +1,29 @@
-plugins {
-    id "io.spring.dependency-management" version "1.0.6.RELEASE"
-    id "com.github.johnrengelman.shadow" version "4.0.2"
-    id "application"
-    id "org.jetbrains.kotlin.jvm" version "1.3.21"
-    id "org.jetbrains.kotlin.kapt" version "1.3.21"
-    id "org.jetbrains.kotlin.plugin.allopen" version "1.3.21"
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.31"
+    }
 }
 
-
 version "0.1"
-group "micronaut.receiver"
+group "notes"
+
+apply plugin: "io.spring.dependency-management"
+apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: "application"
+apply plugin: "kotlin"
+apply plugin: "kotlin-kapt"
+
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven { url "https://jcenter.bintray.com" }
-    maven {
-        url  "https://dl.bintray.com/micronaut/core-releases-local"
-    }
 }
 
 dependencyManagement {
@@ -25,44 +32,31 @@ dependencyManagement {
     }
 }
 
-configurations {
-    // for dependencies that are needed for development only
-    developmentOnly
-}
-
 dependencies {
-    annotationProcessor "io.micronaut:micronaut-inject-java"
-    annotationProcessor "io.micronaut:micronaut-validation"
-    
+    //Logging
     compile 'io.github.microutils:kotlin-logging:1.6.24'
+    
+    // Kotlin
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.31"
+    compile "org.jetbrains.kotlin:kotlin-reflect:1.2.31"
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}"
-    compile "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}"
-    compile "javax.annotation:javax.annotation-api"
+    // Needed for Java 10
+    compile 'javax.annotation:javax.annotation-api:1.3.2'
 
-    compile "io.micronaut:micronaut-runtime"
+    // Micronaut
+    compile "io.micronaut:micronaut-http-client"
     compile "io.micronaut:micronaut-http-server-netty"
+    compile "io.micronaut:micronaut-runtime"
+    compile "io.micronaut:micronaut-spring"
     compile 'io.micronaut.configuration:micronaut-kafka'
-    compile 'io.micronaut:micronaut-management:1.1.0'
-    compile 'io.micronaut:micronaut-http-client:1.1.0'
-    compile 'io.micronaut.configuration:micronaut-micrometer-core:1.1.0'
-    compile 'io.micronaut.configuration:micronaut-micrometer-registry-prometheus:1.1.0'
-    compile "javax.annotation:javax.annotation-api"
-    compile "io.micronaut.configuration:micronaut-hibernate-jpa"
-
-    compile 'io.micronaut:micronaut-spring'
-    runtime 'org.springframework:spring-jdbc'
 
     kapt "io.micronaut:micronaut-inject-java"
-    kapt "io.micronaut:micronaut-validation"
-
     kaptTest "io.micronaut:micronaut-inject-java"
 
     runtime "ch.qos.logback:logback-classic:1.2.3"
-    runtime "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8"
-    runtime "com.h2database:h2"
 
-    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
+    compile 'io.micronaut.configuration:micronaut-micrometer-core:1.1.0'
+    compile 'io.micronaut.configuration:micronaut-micrometer-registry-prometheus:1.1.0'
 
     testCompile "io.micronaut.test:micronaut-test-junit5"
     testCompile('org.junit.jupiter:junit-jupiter-api:5.4.2')
@@ -70,31 +64,22 @@ dependencies {
     testCompile 'org.apache.kafka:kafka-clients:2.1.1:test'
     testCompile 'org.apache.kafka:kafka_2.12:2.1.1'
     testCompile 'org.apache.kafka:kafka_2.12:2.1.1:test'
-    
+
     testImplementation('org.junit.jupiter:junit-jupiter-engine:5.4.2')
 }
 
-test.classpath += configurations.developmentOnly
-
 mainClassName = "micronaut.receiver.Application"
-// use JUnit 5 platform
-test {
-    useJUnitPlatform()
-}
 
 shadowJar {
     mergeServiceFiles()
 }
 
-run.classpath += configurations.developmentOnly
-run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
+run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1')
+
+mainClassName = "notes.Application"
 
 test {
     useJUnitPlatform()
-}
-
-allOpen {
-    annotation("io.micronaut.aop.Around")
 }
 
 compileKotlin {
