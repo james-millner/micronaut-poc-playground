@@ -31,7 +31,7 @@ dependencies {
     compile 'io.micronaut.configuration:micronaut-kafka'
     compile 'io.github.microutils:kotlin-logging:1.6.24'
 
-    compile 'org.jetbrains.exposed:exposed:0.13.2'
+    compile 'org.jetbrains.exposed:exposed:0.13.6'
     
     compile "io.micronaut:micronaut-management"
     compile "io.micronaut:micronaut-http-client"

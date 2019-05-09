@@ -11,7 +11,7 @@ import javax.inject.Inject
 @Controller(value = "/kafka")
 class PublisherController(@Inject val client: KafkaPublisher) {
 
-    companion object: KLogging()
+    companion object : KLogging()
 
     @Post("/send")
     @Produces(MediaType.TEXT_PLAIN)

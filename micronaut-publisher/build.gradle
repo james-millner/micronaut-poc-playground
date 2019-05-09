@@ -62,7 +62,7 @@ dependencies {
     testCompile 'org.apache.kafka:kafka-clients:2.1.1:test'
     testCompile 'org.apache.kafka:kafka_2.12:2.1.1'
     testCompile 'org.apache.kafka:kafka_2.12:2.1.1:test'
-    
+
     testImplementation('org.junit.jupiter:junit-jupiter-engine:5.4.2')
 }
 test.classpath += configurations.developmentOnly

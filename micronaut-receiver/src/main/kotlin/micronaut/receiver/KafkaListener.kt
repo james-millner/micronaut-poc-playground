@@ -15,8 +15,8 @@ class KafkaListener(private val greetingService: GreetingService) {
     fun receive(@KafkaKey id: String, greeting: String) {
         logger.info { "Got Greeting of $greeting" }
 
-        val id = greetingService.save(greeting)
-        logger.info { "Saved! $id" }
+        val greetingId = greetingService.save(greeting)
+        logger.info { "Saved! $greetingId" }
 
         val greetings = greetingService.getAllGreetings()
         logger.info { "I now have: ${greetings.size}" }
