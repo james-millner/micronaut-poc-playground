@@ -1,5 +1,6 @@
 package micronaut.spring.publisher.springpublisher
 
+import mu.KLogging
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.io.Serializable
-
 
 @SpringBootApplication
 class SpringPublisherApplication
@@ -55,9 +55,11 @@ class SenderConfig {
 @RestController
 class SpringPublisher(val kafkaTemplate: KafkaTemplate<String, String>) {
 
+    companion object : KLogging()
+
     @PostMapping("/kafka/send")
     fun send(@RequestParam("greeting") greeting: String) {
-        kafkaTemplate.send("my-greetings", greeting)
-        println("Sent!")
+        kafkaTemplate.send("my-greetings-spring", greeting)
+        logger.info { "Sent $greeting to Kafka" }
     }
 }

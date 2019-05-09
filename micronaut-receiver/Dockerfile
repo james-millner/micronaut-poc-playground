@@ -3,7 +3,7 @@ FROM adoptopenjdk/openjdk11-openj9:jdk-11.0.1.13-alpine-slim
 RUN apk add --no-cache bash
 
 ARG APPNAME
-ARG VERSION=0.1-all
+ARG VERSION=0.1
 ARG PORT=${PORT}
 
 RUN mkdir -p /app
