@@ -1,0 +1,21 @@
+management:
+  endpoints:
+    prometheus:
+      enabled: true
+    web:
+      exposure:
+        include: ["health", "prometheus"]
+
+kafka:
+  bootstrap-servers: localhost:9092
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/micronaut?UseUnicode=true&characterEncoding=utf8&useSSL=false
+    username: micronaut
+    password: micronaut
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+server:
+  port: 8085
