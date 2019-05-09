@@ -7,18 +7,20 @@ import io.micronaut.configuration.kafka.annotation.Topic
 import mu.KLogging
 
 @KafkaListener(offsetReset = OffsetReset.EARLIEST)
-class KafkaListener(val messageService: MessageService) {
+class KafkaListener(private val greetingService: GreetingService) {
 
     companion object : KLogging()
 
     @Topic("my-greetings")
     fun receive(@KafkaKey id: String, greeting: String) {
-        val message = Message(id, greeting)
-        logger.info { "Got Greeting!!! - $message" }
-        messageService.saveMessage(message)
+        logger.info { "Got Greeting of $greeting" }
 
-        val messages = messageService.getAllMessages()
-        logger.info { messages.size }
-        logger.info { messages }
+        val id = greetingService.save(greeting)
+        logger.info { "Saved! $id" }
+
+        val greetings = greetingService.getAllGreetings()
+        logger.info { "I now have: ${greetings.size}" }
+
+        greetings.forEach { logger.info { it } }
     }
 }

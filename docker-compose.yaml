@@ -22,6 +22,18 @@ services:
     depends_on:
       - "zookeeper"
 
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: micronaut
+      MYSQL_USER: micronaut
+      MYSQL_PASSWORD: micronaut
+      MYSQL_ROOT_PASSWORD: micronaut
+    ports:
+      - "3306:3306"
+
 #  micronaut-publisher:
 #    image: micronaut-publisher:latest
 #    restart: always

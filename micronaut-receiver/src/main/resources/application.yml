@@ -16,12 +16,15 @@ micronaut:
     security:
       protocol: PLAINTEXT
 
-
 ---
 datasources:
-  default:
+  h2:
     url: ${JDBC_URL:`jdbc:h2:mem:default;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE`}
     username: ${JDBC_USER:sa}
     password: ${JDBC_PASSWORD:""}
     driverClassName: ${JDBC_DRIVER:org.h2.Driver}
-
+  default:
+    url: jdbc:mysql://localhost:3306/micronaut?UseUnicode=true&characterEncoding=utf8&useSSL=false
+    username: micronaut
+    password: micronaut
+    driverClassName: com.mysql.jdbc.Driver
