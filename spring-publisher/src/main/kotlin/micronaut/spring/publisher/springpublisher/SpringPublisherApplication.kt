@@ -1,12 +1,11 @@
 package micronaut.spring.publisher.springpublisher
 
+
 import mu.KLogging
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.kafka.core.KafkaTemplate
-import org.springframework.stereotype.Component
-import org.apache.kafka.clients.producer.internals.Sender
 import org.springframework.kafka.core.DefaultKafkaProducerFactory
 import org.springframework.kafka.core.ProducerFactory
 import org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG

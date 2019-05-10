@@ -5,30 +5,33 @@ RECEIVER := micronaut-receiver
 S_PUBLISHER := spring-publisher
 S_RECEIVER := spring-receiver
 
-default: test
+default: clean
 
-all: test clean build docker-build
+all: clean build docker-build
 
 clean:
-	cd ${PUBLISHER} && gradle clean
-	cd ${RECEIVER} && gradle clean
-	cd ${S_PUBLISHER} && gradle clean
-	cd ${S_RECEIVER} && gradle clean
+	cd ${PUBLISHER} && MICRONAUT_ENVIRONMENTS=default gradle clean
+	cd ${RECEIVER} && MICRONAUT_ENVIRONMENTS=default gradle clean
+	cd ${S_PUBLISHER} && MICRONAUT_ENVIRONMENTS=default gradle clean
+	cd ${S_RECEIVER} && MICRONAUT_ENVIRONMENTS=default gradle clean
 
-test:
-	cd ${PUBLISHER} && gradle test
-	cd ${RECEIVER} && gradle test
-	cd ${S_PUBLISHER} && gradle test
-	cd ${S_RECEIVER} && gradle test
+compile:
+	cd ${PUBLISHER} && MICRONAUT_ENVIRONMENTS=default gradle compileKotlin
+	cd ${RECEIVER} && MICRONAUT_ENVIRONMENTS=default gradle compileKotlin
+	cd ${S_PUBLISHER} && MICRONAUT_ENVIRONMENTS=default gradle compileKotlin
+	cd ${S_RECEIVER} && MICRONAUT_ENVIRONMENTS=default gradle compileKotlin
 
 build:
-	cd ${PUBLISHER} && gradle build
-	cd ${RECEIVER} && gradle build
-	cd ${S_PUBLISHER} && gradle build
-	cd ${S_RECEIVER} && gradle build
+	cd ${PUBLISHER} && MICRONAUT_ENVIRONMENTS=default gradle build
+	cd ${RECEIVER} && MICRONAUT_ENVIRONMENTS=default gradle build
+	cd ${S_PUBLISHER} && KAFKA_HOST=localhost gradle build
+	cd ${S_RECEIVER} && KAFKA_HOST=localhost gradle build
 
 docker-build:
-	cd ${PUBLISHER} && PORT=8080 docker build -t ${PUBLISHER} --build-arg APPNAME=${PUBLISHER} .
-	cd ${RECEIVER} && PORT=8082 docker build -t ${RECEIVER} --build-arg APPNAME=${RECEIVER} .
-	cd ${S_PUBLISHER} && PORT=8084 docker build -t ${S_PUBLISHER} --build-arg APPNAME=${S_PUBLISHER} .
-	cd ${S_RECEIVER} && PORT=8085 docker build -t ${S_RECEIVER} --build-arg APPNAME=${S_RECEIVER} .
+	cd ${PUBLISHER} && docker build -t ${PUBLISHER} --build-arg APPNAME=${PUBLISHER} .
+	cd ${RECEIVER} && docker build -t ${RECEIVER} --build-arg APPNAME=${RECEIVER} .
+	cd ${S_PUBLISHER} && docker build -t ${S_PUBLISHER} --build-arg APPNAME=${S_PUBLISHER} .
+	cd ${S_RECEIVER} && docker build -t ${S_RECEIVER} --build-arg APPNAME=${S_RECEIVER} .
+
+demo:
+	KAFKA_HOST=kafka docker-compose up

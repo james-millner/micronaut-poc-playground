@@ -4,9 +4,11 @@ import io.micronaut.configuration.kafka.annotation.KafkaKey
 import io.micronaut.configuration.kafka.annotation.KafkaListener
 import io.micronaut.configuration.kafka.annotation.OffsetReset
 import io.micronaut.configuration.kafka.annotation.Topic
+import io.micronaut.context.annotation.Requires
 import io.micronaut.messaging.annotation.Body
 import mu.KLogging
 
+@Requires(env = ["demo"])
 @KafkaListener(offsetReset = OffsetReset.EARLIEST)
 class KafkaListener(private val greetingService: GreetingService) {
 

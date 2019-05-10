@@ -16,7 +16,9 @@ if [[ -n "$DISABLE_DNS_CACHE" && "$DISABLE_DNS_CACHE" == "true" ]]; then
 fi
 
 # Args provided from Micronaut
-JAVA_ARGS="$JAVA_ARGS -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dcom.sun.management.jmxremote -noverify -Dmicronaut.env.deduction=false"
+JAVA_ARGS="$JAVA_ARGS -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dcom.sun.management.jmxremote -noverify -Dmicronaut.environments=demo"
+
+export KAFKA_HOST=${KAFKA_HOST}
 
 # exec <cmd> replaces the current PID rather than spawning a child process meaning any signals
 # sent by Kubernetes will be sent directly to the app rather than this process

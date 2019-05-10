@@ -1,5 +1,6 @@
 package micronaut.publisher
 
+import io.micronaut.context.annotation.Requires
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Post
@@ -8,6 +9,7 @@ import io.micronaut.http.annotation.QueryValue
 import mu.KLogging
 import javax.inject.Inject
 
+@Requires(env = ["demo"])
 @Controller(value = "/kafka")
 class PublisherController(@Inject val client: KafkaPublisher) {
 

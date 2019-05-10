@@ -1,14 +1,9 @@
 micronaut:
+  server:
+    port: 8080
   application:
     name: micronaut-publisher
   metrics:
     enabled: true
     kafka:
       enabled: false
-  kafka:
-    embedded:
-      enabled: true
-    bootstrap:
-      servers: localhost:9092
-    security:
-      protocol: PLAINTEXT

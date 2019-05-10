@@ -8,7 +8,6 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import javax.inject.Inject
-import javax.inject.Named
 import javax.inject.Singleton
 import javax.sql.DataSource
 
@@ -18,7 +17,7 @@ object Greeting : Table() {
 }
 
 @Singleton
-class GreetingService @Inject @Named("mysql") constructor(val dataSource: DataSource) {
+class GreetingService @Inject constructor(val dataSource: DataSource) {
 
     companion object : KLogging()
 
