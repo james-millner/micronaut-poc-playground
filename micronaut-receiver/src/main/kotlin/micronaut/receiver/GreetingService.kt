@@ -1,11 +1,7 @@
 package micronaut.receiver
 
 import mu.KLogging
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.Table
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import javax.inject.Inject
 import javax.inject.Named
@@ -18,7 +14,7 @@ object Greeting : Table() {
 }
 
 @Singleton
-class GreetingService @Inject @Named("mysql") constructor(val dataSource: DataSource) {
+class GreetingService @Inject constructor(val dataSource: DataSource) {
 
     companion object : KLogging()
 
@@ -40,6 +36,12 @@ class GreetingService @Inject @Named("mysql") constructor(val dataSource: DataSo
         Greeting.selectAll().map {
             it[Greeting.greeting]
         }.toList()
+    }
+
+    fun getGreetingById(id: Int) = transaction {
+        Greeting.select { Greeting.id eq (id) }.withDistinct().map {
+            it[Greeting.greeting]
+        }.first()
     }
 
 }

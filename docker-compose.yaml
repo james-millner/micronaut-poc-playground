@@ -34,36 +34,36 @@ services:
     ports:
       - "3306:3306"
 
-  micronaut-publisher:
-    image: micronaut-publisher:latest
-    restart: always
-    ports:
-      - "8080:8080"
-    depends_on:
-      - "kafka"
-      - "mysql"
-
-  micronaut-receiver:
-    image: micronaut-receiver:latest
-    restart: always
-    ports:
-      - "8082:8082"
-    depends_on:
-      - "mysql"
-      - "kafka"
-
-  spring-publisher:
-    image: spring-publisher:latest
-    restart: always
-    ports:
-      - "8084:8084"
-    depends_on:
-      - "kafka"
-
-  spring-receiver:
-    image: spring-receiver:latest
-    restart: always
-    ports:
-      - "8085:8085"
-    depends_on:
-      - "kafka"
+#  micronaut-publisher:
+#    image: micronaut-publisher:latest
+#    restart: always
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - "kafka"
+#      - "mysql"
+#
+#  micronaut-receiver:
+#    image: micronaut-receiver:latest
+#    restart: always
+#    ports:
+#      - "8082:8082"
+#    depends_on:
+#      - "mysql"
+#      - "kafka"
+#
+#  spring-publisher:
+#    image: spring-publisher:latest
+#    restart: always
+#    ports:
+#      - "8084:8084"
+#    depends_on:
+#      - "kafka"
+#
+#  spring-receiver:
+#    image: spring-receiver:latest
+#    restart: always
+#    ports:
+#      - "8085:8085"
+#    depends_on:
+#      - "kafka"
