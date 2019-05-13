@@ -4,15 +4,12 @@ import mu.KLogging
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
-import org.intellij.lang.annotations.Language
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
-import org.springframework.jdbc.core.namedparam.SqlParameterSource
 import org.springframework.kafka.annotation.EnableKafka
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
@@ -21,8 +18,9 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
-import java.sql.ResultSet
+import java.lang.Exception
 import javax.annotation.PostConstruct
+import javax.annotation.PreDestroy
 
 @SpringBootApplication
 class SpringReceiverApplication
@@ -58,8 +56,7 @@ class ConsumerConfig {
 
 @Component
 class KafkaListener(
-        private val service: GreetingService,
-        private val serviceListener: GreetingServiceListener
+        private val service: GreetingService
 ) {
 
     companion object : KLogging()
@@ -68,11 +65,11 @@ class KafkaListener(
     fun listen(@Payload greetingMessage: String) {
         logger.info { "Spring Greeting of: \"$greetingMessage\" received" }
 
-        service.saveGreeting(greetingMessage)
-        logger.info { "Saved into mySQL database." }
+        val  greetingId = service.returnGreetingId(greetingMessage).id
+        logger.info { "Saved into mySQL database, greeting of id: $greetingId." }
 
-        serviceListener.getGreetingById(1)
-        logger.info {  }
+        val getGreetingWithId = service.getGreetingById(greetingId)
+        logger.info { "Greeting message with id: $greetingId is \"${getGreetingWithId.greeting}\". " }
 
     }
 
@@ -85,8 +82,17 @@ data class Greeting(val id: Int?, val greeting: String)
 @Service
 class GreetingService(private val db: NamedParameterJdbcTemplate) {
 
-    fun saveGreeting(greeting: String) {
+    fun returnGreetingId(greeting: String): Greeting {
 
+        saveGreeting(greeting)
+
+        return db.queryForObject(
+                """
+                    SELECT * FROM messages where greeting = :greeting
+                """, mapOf("greeting" to greeting)
+        ) {rs, _ -> Greeting(rs.getInt(1), rs.getString(2))} ?: throw Exception("No")
+    }
+    private fun saveGreeting(greeting: String) {
         db.update(
                 """
                 INSERT INTO messages (greeting)
@@ -95,11 +101,19 @@ class GreetingService(private val db: NamedParameterJdbcTemplate) {
                 "greeting" to greeting
         )
         )
-
     }
 
+    fun getGreetingById(id: Int?): Greeting {
+
+        val greetingSearch = """SELECT * FROM messages WHERE id = :id"""
+
+        return db.queryForObject(greetingSearch, mapOf("id" to id)
+        ) { rs, _ -> Greeting(rs.getInt(1), rs.getString(2)) } ?: throw Exception("this wasn't here bro.")
+    }
+
+
     @PostConstruct
-    fun creatTable() {
+    fun createTable() {
         db.jdbcTemplate.update(
                 """
                     CREATE TABLE IF NOT EXISTS messages (
@@ -110,20 +124,13 @@ class GreetingService(private val db: NamedParameterJdbcTemplate) {
                     """
         )
     }
-}
 
-@Service
-class GreetingServiceListener(private val db: NamedParameterJdbcTemplate) {
-
-    fun getGreetingById(id: Int) {
-
-        val greetingSearch = """SELECT * FROM messages WHERE id = :id"""
-
-        //work required for this
-
-        db.query(greetingSearch, mapOf("id" to id)
-        ) { rs -> Greeting(rs.getInt(0), rs.getString(1)) }
-
+    @PreDestroy
+    fun clearTableContent() {
+        db.jdbcTemplate.update(
+                """
+                    DELETE FROM messages
+                """
+        )
     }
-
 }

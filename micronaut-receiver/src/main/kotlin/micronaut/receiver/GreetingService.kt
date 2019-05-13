@@ -3,6 +3,7 @@ package micronaut.receiver
 import mu.KLogging
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import javax.annotation.PostConstruct
 import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Singleton
