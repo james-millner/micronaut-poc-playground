@@ -15,6 +15,8 @@ import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -27,31 +29,6 @@ fun main(args: Array<String>) {
     runApplication<SpringPublisherApplication>(*args)
 }
 
-@Configuration
-class SenderConfig {
-
-    @Value("\${kafka.bootstrap-servers}")
-    private val bootstrapServers: String? = null
-
-    @Bean
-    fun producerConfigs(): Map<String, Serializable?> {
-        return mapOf(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers,
-                KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
-                VALUE_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java
-                )
-    }
-
-    @Bean
-    fun producerFactory(): ProducerFactory<String, String> {
-        return DefaultKafkaProducerFactory(producerConfigs())
-    }
-
-    @Bean
-    fun kafkaTemplate(): KafkaTemplate<String, String> {
-        return KafkaTemplate(producerFactory())
-    }
-}
-
 @RestController
 class SpringPublisher(val kafkaTemplate: KafkaTemplate<String, String>) {
 
@@ -62,4 +39,11 @@ class SpringPublisher(val kafkaTemplate: KafkaTemplate<String, String>) {
         kafkaTemplate.send("my-greetings-spring", greeting)
         logger.info { "Sent $greeting to Kafka" }
     }
+}
+
+@Controller
+class Hello() {
+
+    @GetMapping("/hello")
+    fun helloThere() = "Hello"
 }
