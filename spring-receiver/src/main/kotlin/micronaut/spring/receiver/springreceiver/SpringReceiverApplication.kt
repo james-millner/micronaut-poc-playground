@@ -17,6 +17,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Component
 
+@EnableKafka
 @SpringBootApplication
 class SpringReceiverApplication
 
@@ -24,37 +25,12 @@ fun main(args: Array<String>) {
     runApplication<SpringReceiverApplication>(*args).registerShutdownHook()
 }
 
-@EnableKafka
-@Configuration
-class ConsumerConfig {
-
-    @Value("\${kafka.bootstrap-servers}")
-    private val bootstrapServers: String? = null
-
-    fun consumerFactory(groupId: String): ConsumerFactory<String, String> {
-        val props = mapOf(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers,
-                ConsumerConfig.GROUP_ID_CONFIG to StringSerializer::class.java,
-                ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
-                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java
-        )
-        return DefaultKafkaConsumerFactory(props)
-    }
-
-    @Bean
-    fun kafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, String> {
-
-        val factory = ConcurrentKafkaListenerContainerFactory<String, String>()
-        factory.consumerFactory = consumerFactory("spring")
-        return factory
-    }
-}
-
 @Component
 class KafkaListener {
 
     companion object : KLogging()
 
-    @KafkaListener(topics = ["my-greetings-spring"], groupId = "test-consumer-group")
+    @KafkaListener(topics = ["my-greetings-spring"])
     fun listen(@Payload greeting: String) {
         logger.info { "Spring Greeting of: \"$greeting\" received" }
     }
