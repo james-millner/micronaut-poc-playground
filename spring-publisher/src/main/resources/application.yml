@@ -9,6 +9,13 @@ management:
 spring:
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    properties:
+      security:
+        protocol: SASL_SSL
+      sasl:
+        jaas:
+          config: org.apache.kafka.common.security.plain.PlainLoginModule   required username='${CLUSTER_API_KEY}'   password='${CLUSTER_API_SECRET}';
+        mechanism: PLAIN
 
 server:
   port: 8095
